@@ -13,3 +13,6 @@ conda deactivate
 # running parse agnostic
 cd ..
 python parse_agnostic.py
+
+# running image agnostic
+python image_agnostic.py

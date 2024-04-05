@@ -40,7 +40,7 @@ def get_im_parse_agnostic(im_parse, pose_data, w=768, h=1024):
 
 if __name__ =="__main__":
     data_path = 'SD-VITON/dataroot/test'
-    output_path = os.path.join(data_path,"parse")
+    output_path = os.path.join(data_path,"parse_agnostic")
     
     os.makedirs(output_path, exist_ok=True)
     
