@@ -6,8 +6,6 @@ import mediapipe as mp
 import numpy as np
 from google.protobuf.json_format import MessageToDict
 
-#TODO :  Start environment
-
 # Put dataroot/test path here, the exact way it represented in SD-VITON.
 DATAROOT = "SD-VITON/dataroot/test"
 IMG_PATH = os.path.join(DATAROOT,"image")
@@ -178,9 +176,6 @@ def move_files(source_folder, destination_folder):
             shutil.move(source_file_path, destination_folder)
             print(f"Moved {file} to {destination_folder}")
 
-# move_files(IMG_PATH,DENSEPOSE_PATH)
 
-#TODO :  Change the environment and generate Human-Parse 
-move_files(IMG_PATH, HUMANPARSE_PATH)
 
 
