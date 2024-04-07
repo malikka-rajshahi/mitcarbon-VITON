@@ -4,6 +4,10 @@ import os
 import numpy as np
 from PIL import Image, ImageDraw
 from tqdm import tqdm
+import time 
+
+start_time = time.time()
+print('Running image agnostic')
 
 def get_img_agnostic(img, parse, pose_data):
     parse_array = np.array(parse)
@@ -58,7 +62,7 @@ def get_img_agnostic(img, parse, pose_data):
 
 if __name__ =="__main__":
     data_path = 'SD-VITON/dataroot/test'
-    output_path = os.path.join(data_path,"image_agnostic")
+    output_path = os.path.join(data_path,"agnostic-v3.2")
     
     os.makedirs(output_path, exist_ok=True)
     
@@ -85,3 +89,8 @@ if __name__ =="__main__":
         agnostic = get_img_agnostic(im, im_label, pose_data)
         
         agnostic.save(osp.join(output_path, im_name))
+
+end_time = time.time()
+execution_time = end_time - start_time
+print("Done with image agnostic.\nExecution time: {:.4f} seconds".format(execution_time))
+print('----------------------------------------------------------------------------------------')

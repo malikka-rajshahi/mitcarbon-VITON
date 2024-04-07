@@ -4,6 +4,10 @@ import os
 import numpy as np
 from PIL import Image, ImageDraw
 from tqdm import tqdm
+import time
+
+start_time = time.time()
+print('Running parse agnostic')
 
 def get_im_parse_agnostic(im_parse, pose_data, w=768, h=1024):
     label_array = np.array(im_parse)
@@ -40,7 +44,7 @@ def get_im_parse_agnostic(im_parse, pose_data, w=768, h=1024):
 
 if __name__ =="__main__":
     data_path = 'SD-VITON/dataroot/test'
-    output_path = os.path.join(data_path,"parse_agnostic")
+    output_path = os.path.join(data_path,"image-parse-agnostic-v3.2")
     
     os.makedirs(output_path, exist_ok=True)
     
@@ -67,7 +71,7 @@ if __name__ =="__main__":
         
         agnostic.save(osp.join(output_path, parse_name))
 
-# im_ori = Image.open('./test/image-parse-v3/06868_00.png')
-# im = Image.open('./test/parse/06868_00.png')
-# print(np.unique(np.array(im_ori)))
-# print(np.unique(np.array(im)))
+end_time = time.time()
+execution_time = end_time - start_time
+print("Done with parse agnostic.\nExecution time: {:.4f} seconds".format(execution_time))
+print('----------------------------------------------------------------------------------------')

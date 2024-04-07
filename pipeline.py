@@ -5,6 +5,10 @@ import cv2
 import mediapipe as mp
 import numpy as np
 from google.protobuf.json_format import MessageToDict
+import time
+
+start_time = time.time()
+print('Running openpose and densepose')
 
 # Put dataroot/test path here, the exact way it represented in SD-VITON.
 DATAROOT = "SD-VITON/dataroot/test"
@@ -176,6 +180,8 @@ def move_files(source_folder, destination_folder):
             shutil.move(source_file_path, destination_folder)
             print(f"Moved {file} to {destination_folder}")
 
-
-
+end_time = time.time()
+execution_time = end_time - start_time
+print("Done with openpose and densepose.\nExecution time: {:.4f} seconds".format(execution_time))
+print('----------------------------------------------------------------------------------------')
 
