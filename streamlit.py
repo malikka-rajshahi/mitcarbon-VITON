@@ -7,10 +7,17 @@ import subprocess
 DATAROOT = "SD-VITON/dataroot/test"
 CLOTHING_PATH = os.path.join(DATAROOT, "cloth")
 IMG_PATH = os.path.join(DATAROOT, "image")
+PAIRS_PATH = "SD-VITON/dataroot/test_pairs.txt"
+OUTPUT_PATH = "SD-VITON/output/streamlit_input/test/unpaired/generator/output"
+
+def test_pairs(image_name, clothing):
+    f = open(PAIRS_PATH, 'w')
+    f.write(f'{image_name} {clothing}')
+    f.close()
 
 # Function to overlay the selected clothing on the uploaded image
 def overlay_clothing(image, image_name, clothing):
-    print("Pipeline : ", image,clothing)
+    print("Pipeline : ", image, clothing)
 
     # prepare image directory
     if not os.path.exists(IMG_PATH): os.makedirs(IMG_PATH)
@@ -19,11 +26,24 @@ def overlay_clothing(image, image_name, clothing):
             f_path = os.path.join(IMG_PATH, f)
             if os.path.isfile(f_path): os.remove(f_path)
 
-    # add image to image directory
+    # resize image
+    image = image.resize((768, 1024))
+    print(f'Image size: {image.size}')
+
+    # clear image directory, add new image
     image.save(os.path.join(IMG_PATH, f'{image_name}'))
+
+    # write to test_pairs.txt: "output.jpg selection.jpg"
+    test_pairs(image_name, clothing)
 
     # run pipeline
     subprocess.run(['./run_pipeline.sh'], shell=True, check=True, executable='/bin/bash')
+
+    # display generated image
+    for f in os.listdir(OUTPUT_PATH):
+        f_path = os.path.join(OUTPUT_PATH, f)
+        output = Image.open(f_path)
+        st.image(output, caption='Generated Image', use_column_width=True)
 
 # Main function to run the Streamlit app
 def main():

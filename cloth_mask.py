@@ -35,15 +35,18 @@ def process_images(input_folder, output_folder):
         input_path = os.path.join(input_folder, image_file)
         output_path = os.path.join(output_folder, image_file)
 
-        cloth_mask = get_cloth_mask(input_path)
+        cloth_mask = get_cloth_mask(input_path)[:, :, 0]
 
         cv2.imwrite(output_path, cloth_mask)
 
         print(f"Cloth mask saved at: {output_path}")
 
 input_folder = "SD-VITON/dataroot/test/cloth"
+custom_input = "SD-VITON/dataroot/test/image"
 output_folder = "SD-VITON/dataroot/test/cloth-mask"
 process_images(input_folder, output_folder)
+process_images(custom_input, output_folder)
+
 # Record the end time
 end_time = time.time()
 

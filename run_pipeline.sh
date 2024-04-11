@@ -1,15 +1,28 @@
 #!/bin/bash
 
+# running streamlit:
+# pipenv shell
+# source ~/.bash_profile
+# conda activate env1
+# streamlit run streamlit.py
+
 CONDA_BASE=$(conda info --base)
 source "$CONDA_BASE/etc/profile.d/conda.sh"
 
-# densepose and openpose
+# reset directories
+find . -name '.DS_Store' -type f -delete
+rm -rf SD-VITON/dataroot/output/streamlit_input/*
+
+echo 'Preprocessing...'
+
+# input and cloth image have to go through cloth mask
+cp SD-VITON/dataroot/test/image/* SD-VITON/dataroot/test/cloth
 conda activate env1
+python cloth_mask.py
+
+# densepose/openpose
 python pipeline.py
 conda deactivate
-
-# cloth mask
-python cloth_mask.py
 
 # human parse
 conda activate tf
@@ -31,4 +44,14 @@ python parse_agnostic.py
 # image agnostic
 python image_agnostic.py
 
-echo 'Preprocessing complete'
+echo 'Preprocessing complete!'
+
+# run model
+echo 'Running model...'
+conda activate env1
+cd SD-VITON
+python ./test_generator.py --occlusion --test_name streamlit_input --tocg_checkpoint ./tocg.pth \
+--gen_checkpoint ./toig.pth --datasetting unpaired --dataroot ./dataroot --data_list test_pairs.txt --composition_mask
+conda deactivate
+echo 'Model ran!'
+cd ..
