@@ -80,7 +80,7 @@ def generate_MP_JSON(image_path,test_path):
         landmark_drawing_spec=mp_drawing_styles.get_default_pose_landmarks_style())
 
       # write image to storage
-      filename=img.replace(".","_rendered.")
+      filename=img.replace(".jpg","_rendered.png")
       path_name = os.path.join(*[test_path ,  "openpose_img",filename])
       cv2.imwrite(path_name, blank)
 
