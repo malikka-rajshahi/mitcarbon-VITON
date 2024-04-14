@@ -25,8 +25,8 @@ jobs:
         
     - name: Install dependencies
       run: |
-        conda env create -f environment_env1.yaml
-        conda env create -f environment_tf.yaml
+        conda env create -f environment_env1.yaml python=3.8.19
+        conda env create -f environment_tf.yaml python=3.7.12
         pip install streamlit
         
     - name: Run Streamlit app
