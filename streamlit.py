@@ -1,8 +1,10 @@
 import streamlit as st
 from PIL import Image
-import os
 import numpy as np
 import subprocess
+import os
+import gdown
+import shutil
 
 DATAROOT = "SD-VITON/dataroot/test"
 CLOTHING_PATH = os.path.join(DATAROOT, "cloth")
@@ -10,10 +12,26 @@ IMG_PATH = os.path.join(DATAROOT, "image")
 PAIRS_PATH = "SD-VITON/dataroot/test_pairs.txt"
 OUTPUT_PATH = "SD-VITON/output/streamlit_input/test/unpaired/generator/output"
 
+
 def test_pairs(image_name, clothing):
     f = open(PAIRS_PATH, 'w')
     f.write(f'{image_name} {clothing}')
     f.close()
+
+def download(file_id,source,destination):
+    if os.path.exists("CIHP_PGN/checkpoint/CIHP_pgn") and os.path.exists("SD-VITON/tocg.pth") and os.path.exists("SD-VITON/toig.pth"):
+        print(f"{destination} file already exists")
+    else:
+        gdown.download_folder(id=file_id)
+        print("Download Complete")
+    
+    os.makedirs(destination, exist_ok=True)
+    files = os.listdir(source)
+    for file in files:
+            source_file_path = os.path.join(source, file)
+            shutil.move(source_file_path, destination)
+            print(f"Moved {file} to {destination}")
+    os.rmdir(source)
 
 # Function to overlay the selected clothing on the uploaded image
 def overlay_clothing(image, clothing):
@@ -56,7 +74,6 @@ def overlay_clothing(image, clothing):
 # Main function to run the Streamlit app
 def main():
     st.title("Virtual Dressing Room")
-
     st.write("Upload your picture:")
     uploaded_image = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
 
@@ -85,8 +102,14 @@ def main():
 
         # Generate button to overlay the selected clothing on the uploaded image
         if st.button("Generate"):
+            # https://drive.google.com/file/d/1Hmx0ySMuo6Q5x9HY66-Fe7KTgmNZlSAb/view?usp=sharing
+            cihp_pgn = '11rbBpjEbLbnArFG_y9r1OeJADHLdr6tp'
+            download(cihp_pgn,'checkpoint','CIHP_PGN/checkpoint')
+            sdviton = '1t7tH-WRb3RgAtJpL9ea9aU8tcbHwN3ZN'
+            download(sdviton,'checkpoint',"SD-VITON")
             if 'clothing_selections' in st.session_state:
-                overlay_clothing(image, st.session_state.clothing_selections)
+                # overlay_clothing(image, st.session_state.clothing_selections)
+                pass
            
             
 
