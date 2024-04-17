@@ -33,7 +33,7 @@ def get_confirm_token(response):
 
     return None
 
-def download(id, destination):
+def download(id, dir, file):
     if os.path.exists("CIHP_PGN/checkpoint/CIHP_pgn") and os.path.exists("SD-VITON/tocg.pth") and os.path.exists("SD-VITON/toig.pth"):
         print(f"{destination} file already exists")
     else:
@@ -47,28 +47,29 @@ def download(id, destination):
         if token:
             params = { 'id' : id, 'confirm' : token }
             response = session.get(URL, params = params, stream = True)
-            
-        os.makedirs(destination, exist_ok=True)
+
+        os.makedirs(dir, exist_ok=True)
+        destination = os.path.join(dir, file)
         save_response_content(response, destination)  
 
 def download_chkpts():
     # https://drive.google.com/file/d/1eYFX7r-1K9VW81O570_W5y4p5fwpeI4H/view?usp=drive_link
-    download('1eYFX7r-1K9VW81O570_W5y4p5fwpeI4H', 'CIHP_PGN/checkpoint/CIHP_pgn/checkpoint')
+    download('1eYFX7r-1K9VW81O570_W5y4p5fwpeI4H', 'CIHP_PGN/checkpoint/CIHP_pgn', 'checkpoint')
 
     # https://drive.google.com/file/d/1o3FMhezRXcp6LXE92UYtNud0ixKFiao7/view?usp=drive_link
-    download('1o3FMhezRXcp6LXE92UYtNud0ixKFiao7','CIHP_PGN/checkpoint/CIHP_pgn/model.ckpt-593292.data-00000-of-00001')
+    download('1o3FMhezRXcp6LXE92UYtNud0ixKFiao7','CIHP_PGN/checkpoint/CIHP_pgn', 'model.ckpt-593292.data-00000-of-00001')
 
     # https://drive.google.com/file/d/16ihgWIxgeY8tKtd-Qn7d_P60hnWneJgu/view?usp=drive_link
-    download('16ihgWIxgeY8tKtd-Qn7d_P60hnWneJgu','CIHP_PGN/checkpoint/CIHP_pgn/model.ckpt-593292.index')
+    download('16ihgWIxgeY8tKtd-Qn7d_P60hnWneJgu','CIHP_PGN/checkpoint/CIHP_pgn', 'model.ckpt-593292.index')
 
     # https://drive.google.com/file/d/1MmpRrK8oiw27tEwn8eLG0ThHbz7MiLhs/view?usp=drive_link
-    download('1MmpRrK8oiw27tEwn8eLG0ThHbz7MiLhs','CIHP_PGN/checkpoint/CIHP_pgn/model.ckpt-593292.meta')
+    download('1MmpRrK8oiw27tEwn8eLG0ThHbz7MiLhs','CIHP_PGN/checkpoint/CIHP_pgn', 'model.ckpt-593292.meta')
 
     # https://drive.google.com/file/d/1D75ZQ3xnAIsKBf3eOJQF6dbyQpEUr2sO/view?usp=drive_link
-    download('1D75ZQ3xnAIsKBf3eOJQF6dbyQpEUr2sO',"SD-VITON/tocg.pth")
+    download('1D75ZQ3xnAIsKBf3eOJQF6dbyQpEUr2sO','SD-VITON', 'tocg.pth')
 
     # https://drive.google.com/file/d/1BsOMU2JeOCnCZDl8XrGzoFcOccpHCctT/view?usp=drive_link
-    download('1BsOMU2JeOCnCZDl8XrGzoFcOccpHCctT',"SD-VITON/toig.pth")
+    download('1BsOMU2JeOCnCZDl8XrGzoFcOccpHCctT','SD-VITON, 'toig.pth')
 
 # Function to overlay the selected clothing on the uploaded image
 def overlay_clothing(image, clothing):
