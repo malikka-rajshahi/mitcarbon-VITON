@@ -3,8 +3,8 @@ from PIL import Image
 import numpy as np
 import subprocess
 import os
-import gdown
 import shutil
+import requests
 
 DATAROOT = "SD-VITON/dataroot/test"
 CLOTHING_PATH = os.path.join(DATAROOT, "cloth")
@@ -18,20 +18,38 @@ def test_pairs(image_name, clothing):
     f.write(f'{image_name} {clothing}')
     f.close()
 
-def download(file_id,source,destination):
+def save_response_content(response, destination):
+    CHUNK_SIZE = 32768
+
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk: # filter out keep-alive new chunks
+                f.write(chunk)
+
+def get_confirm_token(response):
+    for key, value in response.cookies.items():
+        if key.startswith('download_warning'):
+            return value
+
+    return None
+
+def download(id, destination):
     if os.path.exists("CIHP_PGN/checkpoint/CIHP_pgn") and os.path.exists("SD-VITON/tocg.pth") and os.path.exists("SD-VITON/toig.pth"):
         print(f"{destination} file already exists")
     else:
-        gdown.download_folder(id=file_id)
-        print("Download Complete")
+        URL = "https://docs.google.com/uc?export=download"
     
-    os.makedirs(destination, exist_ok=True)
-    files = os.listdir(source)
-    for file in files:
-            source_file_path = os.path.join(source, file)
-            shutil.move(source_file_path, destination)
-            print(f"Moved {file} to {destination}")
-    os.rmdir(source)
+        session = requests.Session()
+    
+        response = session.get(URL, params = { 'id' : id }, stream = True)
+        token = get_confirm_token(response)
+    
+        if token:
+            params = { 'id' : id, 'confirm' : token }
+            response = session.get(URL, params = params, stream = True)
+            
+        os.makedirs(destination, exist_ok=True)
+        save_response_content(response, destination)  
 
 # Function to overlay the selected clothing on the uploaded image
 def overlay_clothing(image, clothing):
@@ -104,9 +122,10 @@ def main():
         if st.button("Generate"):
             # https://drive.google.com/file/d/1Hmx0ySMuo6Q5x9HY66-Fe7KTgmNZlSAb/view?usp=sharing
             cihp_pgn = '11rbBpjEbLbnArFG_y9r1OeJADHLdr6tp'
-            download(cihp_pgn,'checkpoint','CIHP_PGN/checkpoint')
+            download(cihp_pgn,'CIHP_PGN/checkpoint/CIHP_pgn')
             sdviton = '1t7tH-WRb3RgAtJpL9ea9aU8tcbHwN3ZN'
-            download(sdviton,'checkpoint',"SD-VITON")
+            download(sdviton,"SD-VITON")
+            
             if 'clothing_selections' in st.session_state:
                 # overlay_clothing(image, st.session_state.clothing_selections)
                 pass
