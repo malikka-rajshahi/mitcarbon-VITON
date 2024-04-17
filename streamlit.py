@@ -55,7 +55,7 @@ def download(id, dir, file):
 
 def download_chkpts():
     # https://drive.google.com/file/d/1eYFX7r-1K9VW81O570_W5y4p5fwpeI4H/view?usp=drive_link
-    download('1eYFX7r-1K9VW81O570_W5y4p5fwpeI4H', 'CIHP_PGN/checkpoint/CIHP_pgn', 'checkpoint')
+    download('1eYFX7r-1K9VW81O570_W5y4p5fwpeI4H', 'CIHP_PGN/checkpoint/CIHP_pgn', 'checkpoint.txt')
 
     # https://drive.google.com/file/d/1o3FMhezRXcp6LXE92UYtNud0ixKFiao7/view?usp=drive_link
     download('1o3FMhezRXcp6LXE92UYtNud0ixKFiao7','CIHP_PGN/checkpoint/CIHP_pgn', 'model.ckpt-593292.data-00000-of-00001')
@@ -145,7 +145,7 @@ def main():
             
             if 'clothing_selections' in st.session_state:
                 # overlay_clothing(image, st.session_state.clothing_selections)
-                pass
+                print('WORKS')
            
             
 
