@@ -84,11 +84,11 @@ def overlay_clothing(image, clothing):
             if os.path.isfile(f_path): os.remove(f_path)
     
     # prepare output directory
-    st.text(OUTPUT_PATH)
-    if os.path.exists(OUTPUT_PATH):
-        for f in os.listdir(OUTPUT_PATH):
-            f_path = os.path.join(OUTPUT_PATH, f)
-            if os.path.isfile(f_path): os.remove(f_path)
+    # st.text(OUTPUT_PATH)
+    # if os.path.exists(OUTPUT_PATH):
+    #     for f in os.listdir(OUTPUT_PATH):
+    #         f_path = os.path.join(OUTPUT_PATH, f)
+    #         if os.path.isfile(f_path): os.remove(f_path)
 
     # resize image
     image = image.resize((768, 1024))
