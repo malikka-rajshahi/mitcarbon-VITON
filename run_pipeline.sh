@@ -9,6 +9,8 @@ echo $PATH
 CONDA_BASE=$(conda info --base)
 source "$CONDA_BASE/etc/profile.d/conda.sh"
 
+conda env create -f environment_env1.yaml
+
 # reset directories
 find . -name '.DS_Store' -type f -delete
 rm -rf SD-VITON/dataroot/output/streamlit_input/*
