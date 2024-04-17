@@ -19,6 +19,7 @@ def test_pairs(image_name, clothing):
     f.close()
 
 def save_response_content(response, destination):
+    print(destination)
     CHUNK_SIZE = 32768
 
     with open(destination, "wb") as f:
