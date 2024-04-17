@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # running streamlit:
-pipenv shell
-source ~/.bash_profile
+# pipenv shell
+# source ~/.bash_profile
 # streamlit run streamlit.py
 
 CONDA_BASE=$(conda info --base)
