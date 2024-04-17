@@ -69,7 +69,7 @@ def download_chkpts():
     download('1D75ZQ3xnAIsKBf3eOJQF6dbyQpEUr2sO','SD-VITON', 'tocg.pth')
 
     # https://drive.google.com/file/d/1BsOMU2JeOCnCZDl8XrGzoFcOccpHCctT/view?usp=drive_link
-    download('1BsOMU2JeOCnCZDl8XrGzoFcOccpHCctT','SD-VITON, 'toig.pth')
+    download('1BsOMU2JeOCnCZDl8XrGzoFcOccpHCctT','SD-VITON', 'toig.pth')
 
 # Function to overlay the selected clothing on the uploaded image
 def overlay_clothing(image, clothing):
