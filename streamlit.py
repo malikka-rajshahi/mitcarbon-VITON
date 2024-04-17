@@ -51,6 +51,25 @@ def download(id, destination):
         os.makedirs(destination, exist_ok=True)
         save_response_content(response, destination)  
 
+def download_chkpts():
+    # https://drive.google.com/file/d/1eYFX7r-1K9VW81O570_W5y4p5fwpeI4H/view?usp=drive_link
+    download('1eYFX7r-1K9VW81O570_W5y4p5fwpeI4H', 'CIHP_PGN/checkpoint/CIHP_pgn/checkpoint')
+
+    # https://drive.google.com/file/d/1o3FMhezRXcp6LXE92UYtNud0ixKFiao7/view?usp=drive_link
+    download('1o3FMhezRXcp6LXE92UYtNud0ixKFiao7','CIHP_PGN/checkpoint/CIHP_pgn/model.ckpt-593292.data-00000-of-00001')
+
+    # https://drive.google.com/file/d/16ihgWIxgeY8tKtd-Qn7d_P60hnWneJgu/view?usp=drive_link
+    download('16ihgWIxgeY8tKtd-Qn7d_P60hnWneJgu','CIHP_PGN/checkpoint/CIHP_pgn/model.ckpt-593292.index')
+
+    # https://drive.google.com/file/d/1MmpRrK8oiw27tEwn8eLG0ThHbz7MiLhs/view?usp=drive_link
+    download('1MmpRrK8oiw27tEwn8eLG0ThHbz7MiLhs','CIHP_PGN/checkpoint/CIHP_pgn/model.ckpt-593292.meta')
+
+    # https://drive.google.com/file/d/1D75ZQ3xnAIsKBf3eOJQF6dbyQpEUr2sO/view?usp=drive_link
+    download('1D75ZQ3xnAIsKBf3eOJQF6dbyQpEUr2sO',"SD-VITON/tocg.pth")
+
+    # https://drive.google.com/file/d/1BsOMU2JeOCnCZDl8XrGzoFcOccpHCctT/view?usp=drive_link
+    download('1BsOMU2JeOCnCZDl8XrGzoFcOccpHCctT',"SD-VITON/toig.pth")
+
 # Function to overlay the selected clothing on the uploaded image
 def overlay_clothing(image, clothing):
     print("Pipeline : ", image, clothing)
@@ -120,11 +139,7 @@ def main():
 
         # Generate button to overlay the selected clothing on the uploaded image
         if st.button("Generate"):
-            # https://drive.google.com/file/d/1Hmx0ySMuo6Q5x9HY66-Fe7KTgmNZlSAb/view?usp=sharing
-            cihp_pgn = '11rbBpjEbLbnArFG_y9r1OeJADHLdr6tp'
-            download(cihp_pgn,'CIHP_PGN/checkpoint/CIHP_pgn')
-            sdviton = '1t7tH-WRb3RgAtJpL9ea9aU8tcbHwN3ZN'
-            download(sdviton,"SD-VITON")
+            download_chkpts()
             
             if 'clothing_selections' in st.session_state:
                 # overlay_clothing(image, st.session_state.clothing_selections)
