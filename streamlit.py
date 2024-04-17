@@ -144,8 +144,8 @@ def main():
             download_chkpts()
             
             if 'clothing_selections' in st.session_state:
-                # overlay_clothing(image, st.session_state.clothing_selections)
-                st.text('WORKS')
+                overlay_clothing(image, st.session_state.clothing_selections)
+                # st.text('WORKS')
            
             
 
