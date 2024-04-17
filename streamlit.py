@@ -20,7 +20,7 @@ def test_pairs(image_name, clothing):
 
 def save_response_content(response, destination):
     print(destination)
-    CHUNK_SIZE = 32768
+    CHUNK_SIZE = 42000
 
     with open(destination, "wb") as f:
         for chunk in response.iter_content(CHUNK_SIZE):
@@ -36,7 +36,7 @@ def get_confirm_token(response):
 
 def download(id, dir, file):
     if os.path.exists("CIHP_PGN/checkpoint/CIHP_pgn") and os.path.exists("SD-VITON/tocg.pth") and os.path.exists("SD-VITON/toig.pth"):
-        print(f"{destination} file already exists")
+        print(f"{file} file already exists")
     else:
         URL = "https://docs.google.com/uc?export=download"
     
@@ -145,7 +145,7 @@ def main():
             
             if 'clothing_selections' in st.session_state:
                 # overlay_clothing(image, st.session_state.clothing_selections)
-                print('WORKS')
+                st.text('WORKS')
            
             
 
