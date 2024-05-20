@@ -45,16 +45,16 @@ def generate_MP_JSON(image_path,test_path):
     ]
   }
 
-	# Batch loading all images (path specified by the Hydra cfg file)
+        # Batch loading all images (path specified by the Hydra cfg file)
   img_folder = os.listdir(image_path)
   print(img_folder)
-	# Loop over all the sorted  video files in the folder
+        # Loop over all the sorted  video files in the folder
   for i in range(len(img_folder)):
     img = img_folder[i]
     img_folder[i] = os.path.join(image_path,img_folder[i])
 
     count = 0
-    with mp_pose.Pose(	min_detection_confidence	= 0.5,
+    with mp_pose.Pose(  min_detection_confidence        = 0.5,
             min_tracking_confidence = 0.75,
             model_complexity        = 2,
             smooth_landmarks        = True) as pose:
@@ -175,13 +175,15 @@ def move_files(source_folder, destination_folder):
     os.makedirs(destination_folder, exist_ok=True)
     files = os.listdir(source_folder)
     for file in files:
-        # if file.startswith("outputres"):
+        if file.startswith("outputres"):
             source_file_path = os.path.join(source_folder, file)
             shutil.move(source_file_path, destination_folder)
             print(f"Moved {file} to {destination_folder}")
+
+os.system("mv output* SD-VITON/dataroot/test")
+move_files(DATAROOT, DENSEPOSE_PATH)
 
 end_time = time.time()
 execution_time = end_time - start_time
 print("Done with openpose and densepose.\nExecution time: {:.4f} seconds".format(execution_time))
 print('----------------------------------------------------------------------------------------')
-
