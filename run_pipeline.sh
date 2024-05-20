@@ -26,10 +26,11 @@ echo 'Preprocessing...'
 cp SD-VITON/dataroot/test/image/* SD-VITON/dataroot/test/cloth
 conda activate env1
 python cloth_mask.py
+conda deactivate
 
 # densepose/openpose
 python pipeline.py
-conda deactivate
+mv SD-VITON/dataroot/test/image-densepose/outputres.0001.png SD-VITON/dataroot/test/image-densepose/input_image-densepose.jpg
 
 # human parse
 conda activate tf
