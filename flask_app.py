@@ -93,3 +93,6 @@ def main():
     
     clothing_images = os.listdir(CLOTHING_PATH)
     return render_template("flask_display.html", clothing_images=clothing_images, image=image_name, output=output)
+
+if __name__=='__main__': 
+    app.run(host='0.0.0', port='8080')
