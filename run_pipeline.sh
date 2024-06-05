@@ -2,6 +2,7 @@
 
 # running streamlit:
 # pipenv shell
+# if not installed: pip install streamlit
 # source ~/.bash_profile
 # streamlit run streamlit.py
 
@@ -19,6 +20,8 @@ rm -rf SD-VITON/dataroot/test/image-parse-agnostic-v3.2/*
 rm -rf SD-VITON/dataroot/test/image-parse-v3/*
 rm -rf SD-VITON/dataroot/test/openpose_img/*
 rm -rf SD-VITON/dataroot/test/openpose_json/*
+rm -rf SD-VITON/output/streamlit_input/test/unpaired/generator/output/*
+rm -rf SD-VITON/output/streamlit_input/test/unpaired/generator/grid/*
 
 echo 'Preprocessing...'
 
@@ -26,30 +29,44 @@ echo 'Preprocessing...'
 cp SD-VITON/dataroot/test/image/* SD-VITON/dataroot/test/cloth
 conda activate env1
 python cloth_mask.py
-conda deactivate
 
 # densepose/openpose
 python pipeline.py
-mv SD-VITON/dataroot/test/image-densepose/outputres.0001.png SD-VITON/dataroot/test/image-densepose/input_image-densepose.jpg
-
-# human parse
-conda activate tf
-rm -rf CIHP_PGN/datasets/images/*
-cp SD-VITON/dataroot/test/image/* CIHP_PGN/datasets/images
-cd CIHP_PGN
-python inf_pgn.py
 conda deactivate
 
-source "$CONDA_BASE/etc/profile.d/conda.sh"
+# self correction human parsing
+cp SD-VITON/dataroot/test/image/* Self-Correction-Human-Parsing/inputs
+cd Self-Correction-Human-Parsing
+python simple_extractor.py --dataset 'atr' --model-restore 'checkpoints/final.pth' --input-dir 'inputs' --output-dir 'outputs'
+cd ..
+cp Self-Correction-Human-Parsing/outputs/* SD-VITON/dataroot/test/image-parse-v3
+# mv SD-VITON/dataroot/test/image-parse-v3/input_image.jpg SD-VITON/dataroot/test/image-parse-v3/input_image.png
 
-# filling image-parse-v3
-cd datasets/output/cihp_parsing_maps
-mkdir vis_images
-mv *vis.png vis_images
-cd ../../../..
-mv CIHP_PGN/datasets/output/cihp_parsing_maps/*.png SD-VITON/dataroot/test/image-parse-v3
+###############################################      CIHP PGN CODE       ##########################################################
+###################################################################################################################################
+# # human parse
+# conda activate tf
+# rm -rf CIHP_PGN/datasets/images/*
+# cp SD-VITON/dataroot/test/image/* CIHP_PGN/datasets/images
+# cd CIHP_PGN
+# python inf_pgn.py
+# conda deactivate
+
+# source "$CONDA_BASE/etc/profile.d/conda.sh"
+
+# # filling image-parse-v3
+# cd datasets/output/cihp_parsing_maps
+# mkdir vis_images
+# mv *vis.png vis_images
+# cd ../../../..
+# mv CIHP_PGN/datasets/output/cihp_parsing_maps/*.png SD-VITON/dataroot/test/image-parse-v3
+###################################################################################################################################
+###################################################################################################################################
+
+
 
 # parse agnostic
+source ~/.bash_profile
 python parse_agnostic.py
 
 # image agnostic
